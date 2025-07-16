@@ -1,0 +1,4 @@
+node_modules
+public
+local.env
+.DS_Store
