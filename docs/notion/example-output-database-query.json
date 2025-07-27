@@ -1,0 +1,119 @@
+{
+    "object": "list",
+    "results": [
+        {
+            "object": "page",
+            "id": "d97c3aee-3331-4ec1-810e-2cde08bbf6cd",
+            "created_time": "2023-03-14T19:56:00.000Z",
+            "last_edited_time": "2025-05-21T21:02:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "f7945e78-3079-4181-aa63-4635261d36ec"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "f7945e78-3079-4181-aa63-4635261d36ec"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "📱"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "26b930f2-f33d-4fb5-b77d-ab6009611cfb"
+            },
+            "archived": false,
+            "in_trash": false,
+            "properties": {
+                "Quantity": {
+                    "id": "CtVj",
+                    "type": "number",
+                    "number": null
+                },
+                "ID": {
+                    "id": "IxR%40",
+                    "type": "unique_id",
+                    "unique_id": {
+                        "prefix": "INVENTORY",
+                        "number": 3
+                    }
+                },
+                "Date": {
+                    "id": "Jbb%7B",
+                    "type": "date",
+                    "date": null
+                },
+                "Serial Number": {
+                    "id": "LBmr",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Tags": {
+                    "id": "iH%7C%7C",
+                    "type": "multi_select",
+                    "multi_select": []
+                },
+                "Model": {
+                    "id": "qWEC",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Kind": {
+                    "id": "qi_%3A",
+                    "type": "select",
+                    "select": {
+                        "id": "efb99a62-3cc1-4a14-8db8-34fd1ad3553e",
+                        "name": "Phone",
+                        "color": "default"
+                    }
+                },
+                "Link": {
+                    "id": "rZ%60o",
+                    "type": "url",
+                    "url": null
+                },
+                "Created": {
+                    "id": "wyTN",
+                    "type": "created_time",
+                    "created_time": "2023-03-14T19:56:00.000Z"
+                },
+                "Product URL": {
+                    "id": "z%3Ce%3F",
+                    "type": "url",
+                    "url": "https://support.apple.com/kb/SP831"
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "iPhone 12 Pro",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "iPhone 12 Pro",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/iPhone-12-Pro-d97c3aee33314ec1810e2cde08bbf6cd",
+            "public_url": null
+        }
+    ],
+    "next_cursor": null,
+    "has_more": false,
+    "type": "page_or_database",
+    "page_or_database": {},
+    "request_id": "75db7a24-2940-47fc-b908-6418ae6b4b3a"
+}
