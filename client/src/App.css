@@ -1,8 +1,16 @@
 #root {
-  /* max-width: 1280px; */
   margin: 0 auto;
-  /* padding: 2rem; */
-  text-align: center;
+  /* Removed text-align: center to allow flexible layouts */
+}
+
+/* Global smooth transitions for theme switching */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Reset default button and input styles to work better with themes */
+button, input {
+  font-family: inherit;
 }
 
 .logo {

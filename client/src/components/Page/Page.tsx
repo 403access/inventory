@@ -1,3 +1,5 @@
+import { useTheme } from "../../contexts/ThemeContext";
+
 export interface PageProps<T> {
     title: string
     isLoading: boolean
@@ -10,18 +12,51 @@ export interface PageProps<T> {
 export const Page = <T,>({
     children, title, isLoading, isError, error, data, render
 }: React.PropsWithChildren<PageProps<T>>) => {
+    const { colors } = useTheme();
+
     return (
-        <div>
-            {false && <h1>{title}</h1>}
+        <div style={{ 
+            minHeight: "100vh",
+            backgroundColor: colors.background,
+            color: colors.text,
+            padding: "1rem"
+        }}>
+            {false && <h1 style={{ color: colors.text }}>{title}</h1>}
 
-            {isLoading && <p>Loading...</p>}
+            {isLoading && (
+                <p style={{ 
+                    color: colors.textSecondary,
+                    textAlign: "center",
+                    fontSize: "1.1rem"
+                }}>
+                    ⏳ Loading...
+                </p>
+            )}
 
-            {isError && error && <p style={{ color: "red" }}>{error.message}</p>}
+            {isError && error && (
+                <p style={{ 
+                    color: colors.error,
+                    backgroundColor: `${colors.error}20`,
+                    padding: "1rem",
+                    borderRadius: "8px",
+                    border: `1px solid ${colors.error}`
+                }}>
+                    ❌ {error.message}
+                </p>
+            )}
 
-            {data && data.length === 0 && <p>No uploaded files yet.</p>}
+            {data && data.length === 0 && (
+                <p style={{ 
+                    color: colors.textSecondary,
+                    textAlign: "center",
+                    fontSize: "1.1rem"
+                }}>
+                    📭 No uploaded files yet.
+                </p>
+            )}
 
             {data && data.length > 0 && (<>
-                <p>Found {data.length} databases.</p>
+                <p style={{ color: colors.text }}>Found {data.length} databases.</p>
                 <div
                     style={{
                         display: "grid",
