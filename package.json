@@ -8,6 +8,7 @@
     "@notionhq/client": "^4.0.1",
     "@short.io/client-node": "^2.2.0",
     "@types/mime-types": "^3.0.1",
+    "@types/qrcode": "^1.5.5",
     "canvas": "^3.1.2",
     "formidable": "^3.5.4",
     "fs-extra": "^11.3.0",
