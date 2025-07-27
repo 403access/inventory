@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useTheme } from "../../contexts/ThemeContext";
 import { DatabasesPage } from "../../pages/DatabasesPage";
 import { FilesPage } from "../../pages/FilesPage";
 import { InventoryPage } from "../../pages/InventoryPage";
 import { PagesPage } from "../../pages/PagesPage";
 import { Button } from "../Button";
+import { ThemeToggle } from "../ThemeToggle";
 
 export const tabs = {
     inventory: "Inventory",
@@ -14,6 +16,7 @@ export const tabs = {
 
 export const Tabs = () => {
     const [activeTab, setActiveTab] = useState("inventory");
+    const { colors } = useTheme();
 
     const getBorderRadius = (length: number, index: number) => {
         const value = "4px";
@@ -34,9 +37,11 @@ export const Tabs = () => {
     };
 
     const getAdditionalStyles = (tab: string) => ({
-        backgroundColor: activeTab === tab ? "#007bff" : "#f8f9fa",
-        color: activeTab === tab ? "#fff" : "#000",
+        backgroundColor: activeTab === tab ? colors.primary : colors.surface,
+        color: activeTab === tab ? "#fff" : colors.text,
         cursor: "pointer",
+        border: `1px solid ${colors.border}`,
+        transition: "all 0.3s ease",
     });
 
     const getPage = (tab: string) => {
@@ -57,7 +62,16 @@ export const Tabs = () => {
     const tabEntries = Object.entries(tabs);
 
     return (
-        <div style={{ padding: "2rem" }}>
+        <div
+            style={{
+                padding: "2rem",
+                minHeight: "100vh",
+                backgroundColor: colors.background,
+                color: colors.text,
+                transition: "all 0.3s ease",
+            }}
+        >
+            <ThemeToggle />
             <div
                 style={{
                     margin: "1rem 0",
@@ -72,7 +86,7 @@ export const Tabs = () => {
                         key={key}
                         styles={{
                             ...getAdditionalStyles(key),
-                            borderRadius: getBorderRadius(tabEntries.length, index)
+                            borderRadius: getBorderRadius(tabEntries.length, index),
                         }}
                         onClick={() => setActiveTab(key)}
                     >
