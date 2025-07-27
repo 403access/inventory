@@ -18,6 +18,7 @@ export type UploadResponse = {
 	link: string;
 	target_link: string;
 	label_path: string;
+	label_url: string;
 	csv_row: any;
 };
 

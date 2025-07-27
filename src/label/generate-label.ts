@@ -38,7 +38,8 @@ export const generateLabel = async (
 	ctx.drawImage(qrCanvas, qrX, centerY - qrSize / 2);
 	ctx.fillText(name, textX, centerY + textSize / 2 - 4);
 
-	const labelPath = path.join(labelDir, `label_${id}.png`);
+	const labelFileName = `label_${id}.png`;
+	const labelPath = path.join(labelDir, labelFileName);
 	await fs.writeFile(labelPath, canvas.toBuffer("image/png"));
-	return labelPath;
+	return { labelPath, labelFileName };
 };

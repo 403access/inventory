@@ -71,13 +71,15 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 
 		// Create QR code & label
 		const labelService = new LabelService();
-		const labelPath = await labelService.generateLabel(
+		const { labelPath, labelFileName } = await labelService.generateLabel(
 			config.LABEL_DIR,
 			safeName,
 			shortLink,
 			notionPage.id,
 		);
 		await labelService.printLabel(labelPath);
+
+		const labelUrl = `/public/labels/${labelFileName}`;
 
 		return Response.json({
 			id: notionPage.id,
@@ -88,6 +90,7 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 			link: shortLink,
 			target_link: notionPage.url,
 			label_path: labelPath,
+			label_url: labelUrl,
 			csv_row: csvRow,
 		});
 	} catch (error) {

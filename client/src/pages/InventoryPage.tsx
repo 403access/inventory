@@ -235,6 +235,16 @@ export const InventoryPage = () => {
                                     Converted Image
                                 </a>
                             </li>
+                            <img src={uploadResult.label_url} alt="Label" style={{ maxWidth: "100%" }} />
+                            <li>
+                                <a
+                                    href={uploadResult.label_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Label Image
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 )}
