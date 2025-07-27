@@ -40,8 +40,6 @@ export const setupServer = async () => {
 	const notionService = new NotionService(config);
 	await notionService.sync();
 
-	await notionService.updatePage("23de4e37-eb91-818d-ac92-fdce906e7ff5", "https://notion.so/INVENTORY-25");
-
 	return config;
 };
 
