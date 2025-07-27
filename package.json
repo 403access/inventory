@@ -2,9 +2,12 @@
   "scripts": {
     "dev": "clear && bun run server.ts",
     "build": "bun build --target=bun --production --outdir=dist server.ts",
-    "start": "bun dist/server.js"
+    "start": "bun dist/server.js",
+    "start-printer": "tsx test.ts"
   },
+  "type": "module",
   "dependencies": {
+    "@abandonware/noble": "^1.9.2-26",
     "@notionhq/client": "^4.0.1",
     "@short.io/client-node": "^2.2.0",
     "@types/mime-types": "^3.0.1",
@@ -18,6 +21,10 @@
   "devDependencies": {
     "@biomejs/biome": "2.1.2",
     "@types/bun": "^1.2.18",
-    "@types/node": "^24.0.14"
-  }
+    "@types/node": "^24.0.14",
+    "tsx": "^4.20.3"
+  },
+  "trustedDependencies": [
+    "@abandonware/noble"
+  ]
 }
