@@ -4,6 +4,8 @@ A web app for adding new items to your inventory.
 
 Add items to your inventory with name, quantity, and photo. Automatically generates Notion pages, QR labels, and tracking links. Print labels as needed.
 
+For a detailed documentation with visualization see [Flow Diagrams](./docs/diagrams/flow-diagrams.md).
+
 ## 🔄 Workflow
 
 1. **📸 Capture/Select Image**
