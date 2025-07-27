@@ -19,6 +19,8 @@ export const InventoryPage = () => {
         setQuantity,
         handleImageChange,
         handleSubmit,
+        clearError,
+        retry,
     } = useInventoryUpload();
 
     return (
@@ -51,7 +53,45 @@ export const InventoryPage = () => {
 
                     {/* Error Message */}
                     {error && (
-                        <StatusMessage type="error">❌ Error: {error}</StatusMessage>
+                        <StatusMessage type="error">
+                            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                                <div>❌ Error: {error}</div>
+                                <div style={{ display: "flex", gap: "0.5rem" }}>
+                                    <button
+                                        type="button"
+                                        onClick={retry}
+                                        disabled={!canSubmit}
+                                        style={{
+                                            padding: "0.5rem 1rem",
+                                            backgroundColor: canSubmit ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 255, 255, 0.3)",
+                                            color: canSubmit ? "#dc3545" : "rgba(255, 255, 255, 0.7)",
+                                            border: "1px solid rgba(255, 255, 255, 0.3)",
+                                            borderRadius: "6px",
+                                            cursor: canSubmit ? "pointer" : "not-allowed",
+                                            fontSize: "0.9rem",
+                                            fontWeight: "500",
+                                        }}
+                                    >
+                                        🔄 Retry
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={clearError}
+                                        style={{
+                                            padding: "0.5rem 1rem",
+                                            backgroundColor: "rgba(255, 255, 255, 0.2)",
+                                            color: "white",
+                                            border: "1px solid rgba(255, 255, 255, 0.3)",
+                                            borderRadius: "6px",
+                                            cursor: "pointer",
+                                            fontSize: "0.9rem",
+                                        }}
+                                    >
+                                        ✖️ Dismiss
+                                    </button>
+                                </div>
+                            </div>
+                        </StatusMessage>
                     )}
 
                     {/* Success Results */}
