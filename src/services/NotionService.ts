@@ -360,13 +360,7 @@ export class NotionService {
 			throw new Error("Notion page creation failed");
 		}
 
-		return {
-			id: notionPage.id,
-			uniqueIdNumber: notionPage.uniqueIdNumber,
-			uniqueIdPrefix: notionPage.uniqueIdPrefix,
-			uniqueId: notionPage.uniqueId,
-			url: notionPage.url,
-		};
+		return notionPage;
 	}
 
 	async updatePage(pageId: string, shortLink: string): Promise<void> {
