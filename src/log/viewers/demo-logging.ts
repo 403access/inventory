@@ -7,8 +7,8 @@
  * of the inventory uploader application.
  */
 
-import { initializeLogger, log, logJSON } from "./src/log/app-logger";
-import { createFolders } from "./src/utils/folders";
+import { createFolders } from "../../utils/folders";
+import { initializeLogger, log, logJSON } from "../app-logger";
 
 async function demonstrateLogging() {
 	console.log("🔧 Setting up logging demonstration...\n");

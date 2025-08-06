@@ -67,3 +67,26 @@ export const logJSON = async (
 ): Promise<void> => {
 	await appLogger.logJSON(message, data);
 };
+
+/**
+ * Get recent log entries in reverse order (newest first)
+ * This provides a way to view recent logs without file manipulation
+ */
+export const getRecentLogs = async (
+	logFilePath: string,
+	lines: number = 20,
+): Promise<string[]> => {
+	try {
+		const fs = await import("node:fs/promises");
+		const content = await fs.readFile(logFilePath, "utf-8");
+		return content
+			.trim()
+			.split("\n")
+			.filter((line) => line.trim())
+			.reverse()
+			.slice(0, lines);
+	} catch (error) {
+		console.error(`Error reading log file: ${error}`);
+		return [];
+	}
+};
