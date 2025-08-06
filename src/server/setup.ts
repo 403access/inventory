@@ -38,10 +38,12 @@ export const setupServer = async () => {
 	console.log("Folders created:", folders);
 
 	const publicFolder = folders.public;
+	const CSV_FILE = `${folders.public.CSV_DIR}/inventory.csv`;
 
 	const config = {
 		...typedEnv,
 		...publicFolder,
+		CSV_FILE,
 	};
 
 	const linkService = new LinkService(config);
