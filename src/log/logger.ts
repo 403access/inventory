@@ -1,53 +1,8 @@
 import * as fs from "node:fs/promises";
-
-interface LoggerAdapter {
-	write(message: string): Promise<void>;
-	writeError(message: string): Promise<void>;
-}
-
-class ConsoleAdapter implements LoggerAdapter {
-	async write(message: string): Promise<void> {
-		console.log(message);
-	}
-
-	async writeError(message: string): Promise<void> {
-		console.error(message);
-	}
-}
-
-class FileAdapter implements LoggerAdapter {
-	constructor(private filePath: string) {}
-
-	async write(message: string): Promise<void> {
-		await fs.appendFile(this.filePath, message + "\n");
-	}
-
-	async writeError(message: string): Promise<void> {
-		await fs.appendFile(this.filePath, message + "\n");
-	}
-}
-
-class MemoryAdapter implements LoggerAdapter {
-	private logEntries: string[] = [];
-
-	async write(message: string): Promise<void> {
-		this.logEntries.push(message);
-	}
-
-	async writeError(message: string): Promise<void> {
-		this.logEntries.push(message);
-	}
-
-	getLogEntries(): string[] {
-		return [...this.logEntries];
-	}
-
-	clearLogEntries(): void {
-		this.logEntries = [];
-	}
-}
-
-export type LoggerType = "console" | "file" | "memory";
+import type { LoggerAdapter, LoggerType } from "./adapters/base-adapter";
+import { ConsoleAdapter } from "./adapters/console-adapter";
+import { FileAdapter } from "./adapters/file-adapter";
+import { MemoryAdapter } from "./adapters/memory-adapter";
 
 export class Logger {
 	private adapter: LoggerAdapter;

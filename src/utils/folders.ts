@@ -106,6 +106,7 @@ export const folderSpec = {
 		labels: "LABEL_DIR",
 		csv: "CSV_DIR",
 	},
+	logs: "LOGS_DIR",
 } as const;
 
 /**

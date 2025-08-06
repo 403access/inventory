@@ -1,4 +1,5 @@
 import type { Client } from "@notionhq/client";
+import { log } from "../../../log/app-logger";
 import { NotionDatabaseRepository } from "../../../repositories/NotionDatabaseRepository";
 import { NotionFilesRepository } from "../../../repositories/NotionFilesRepository";
 import { NotionPagesRepository } from "../../../repositories/NotionPagesRepository";
@@ -17,7 +18,10 @@ export const sync = async (
 
 	// get notion database from sqlite db
 	const currentDatabase = notionDatabaseRepository.getDatabase();
-	console.log("Current Notion database from DB:", currentDatabase);
+	await log(
+		"Current Notion database from DB:",
+		JSON.stringify(currentDatabase),
+	);
 
 	// get notion database from notion API
 	const newDatabase = await getDatabase(notionClient, databaseId);
@@ -25,27 +29,27 @@ export const sync = async (
 
 	// if not exists or has a different id or last_edited_time, create it
 	if (currentDatabase === null || currentDatabase.id !== newDatabase.id) {
-		console.log("Inserting new Notion database to DB...");
+		await log("Inserting new Notion database to DB...");
 		await NotionDatabaseService.storeDatabase(config, newDatabase);
 	} else if (
 		currentDatabase.last_edited_time !== newDatabase.last_edited_time
 	) {
-		console.log("Updating existing Notion database in DB...");
+		await log("Updating existing Notion database in DB...");
 		await NotionDatabaseService.updateDatabase(config, newDatabase);
 	} else {
-		console.log("Notion database is up-to-date in DB.");
+		await log("Notion database is up-to-date in DB.");
 	}
 
 	// build last edited time from the most recent edited page or null
 	const notionPagesRepository = new NotionPagesRepository();
 	const lastEditedPage = notionPagesRepository.getMostRecentEditedPage();
-	console.log("Last edited page:", lastEditedPage);
+	await log("Last edited page:", JSON.stringify(lastEditedPage));
 
 	const lastEditedTime = lastEditedPage?.last_edited_time;
 	if (lastEditedTime) {
-		console.log("Last edited time:", lastEditedTime);
+		await log("Last edited time:", lastEditedTime);
 	} else {
-		console.log("No last edited time found, syncing all pages.");
+		await log("No last edited time found, syncing all pages.");
 	}
 
 	// query pages for database
@@ -54,18 +58,14 @@ export const sync = async (
 		databaseId,
 		lastEditedTime ?? undefined,
 	);
-	console.log(
-		"Found",
-		currentPages.results.length,
-		"pages in Notion database.",
-	);
+	await log("Found", currentPages.results.length, "pages in Notion database.");
 
 	// save pages to db
 	const storedPages = await NotionPageService.storePages(
 		databaseId,
 		currentPages,
 	);
-	console.log(
+	await log(
 		"Stored",
 		storedPages.length,
 		"pages in the Notion database repository.",
@@ -88,11 +88,11 @@ export const sync = async (
 	const notionFilesRepository = new NotionFilesRepository();
 
 	for (const page of storedPages) {
-		console.log("Processing page for uploaded files:", page.id);
+		await log("Processing page for uploaded files:", page.id);
 
 		const uploadedFiles = await getUploadedFiles(notionClient, page.id);
 		if (!uploadedFiles) {
-			console.warn("No uploaded files found for page:", page.id);
+			await log("No uploaded files found for page:", page.id);
 			continue;
 		}
 
@@ -102,8 +102,8 @@ export const sync = async (
 			page_id: page.id,
 		}));
 
-		console.log("Inserting file data:", filesToInsert);
+		await log("Inserting file data:", JSON.stringify(filesToInsert));
 		notionFilesRepository.insertFiles(filesToInsert);
-		console.log("Inserted file for page:", page.id);
+		await log("Inserted file for page:", page.id);
 	}
 };

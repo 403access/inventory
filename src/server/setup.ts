@@ -1,4 +1,5 @@
 import { setupDatabase } from "../database/setup";
+import { initializeLogger } from "../log/app-logger";
 import { LinkService } from "../services/LinkService";
 import { NotionService } from "../services/NotionService";
 import { getEnv, validateEnv } from "../utils/env";
@@ -8,14 +9,14 @@ import { createFolders } from "../utils/folders";
  * @param {SetupConfig} config - The configuration object containing server settings.
  * @returns An object containing the hostname and port.
  */
-export const getServerInfo = (config: SetupConfig) => {
+export const getServerInfo = async (config: SetupConfig) => {
 	const hostname = config.HOST ?? undefined;
 
 	// If PORT is not set, current bun (https://bun.sh/) default to 3000
 	const port = config.PORT ? parseInt(config.PORT, 10) : 3000;
 
 	const serverInfo = { hostname, port };
-	console.log(`Server info config: ${JSON.stringify(serverInfo)}`);
+	await config.logger.log(`Server info config: ${JSON.stringify(serverInfo)}`);
 
 	return serverInfo;
 };
@@ -34,7 +35,13 @@ export const setupServer = async () => {
 	setupDatabase();
 
 	const folders = await createFolders();
-	console.log("Folders created:", folders);
+
+	// Initialize file logger
+	const logFilePath = `${folders.LOGS_DIR}/server.log`;
+	const logger = await initializeLogger(logFilePath);
+
+	await logger.log("Server setup started");
+	await logger.log("Folders created", JSON.stringify(folders));
 
 	const publicFolder = folders.public;
 	const CSV_FILE = `${folders.public.CSV_DIR}/inventory.csv`;
@@ -43,6 +50,8 @@ export const setupServer = async () => {
 		...typedEnv,
 		...publicFolder,
 		CSV_FILE,
+		LOGS_DIR: folders.LOGS_DIR,
+		logger,
 	};
 
 	const linkService = new LinkService(config);
@@ -50,6 +59,8 @@ export const setupServer = async () => {
 
 	const notionService = new NotionService(config);
 	await notionService.sync();
+
+	await logger.log("Server setup completed successfully");
 
 	return config;
 };

@@ -5,7 +5,7 @@ import { getServerInfo, setupServer } from "./src/server/setup";
 const config = await setupServer();
 
 const server = Bun.serve({
-	...getServerInfo(config),
+	...(await getServerInfo(config)),
 
 	routes: routesConfig(config),
 
@@ -14,4 +14,7 @@ const server = Bun.serve({
 		return serveStatic(req);
 	},
 });
-console.log(`Server is running at ${server.hostname}:${server.port}`);
+
+await config.logger.log(
+	`Server is running at ${server.hostname}:${server.port}`,
+);
