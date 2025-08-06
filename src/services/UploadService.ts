@@ -6,20 +6,6 @@ export class UploadService {
 	constructor(private config: SetupConfig) {}
 
 	async uploadFile({ file, name }: UploadParams) {
-		const {
-			originalPath,
-			convertedPath,
-			originalFilename,
-			convertedFilename,
-			safeName,
-		} = await storeFile(file, name, this.config.IMAGE_DIR);
-
-		return {
-			originalPath,
-			convertedPath,
-			originalFilename,
-			convertedFilename,
-			safeName,
-		};
+		return await storeFile(file, name, this.config.IMAGE_DIR);
 	}
 }
