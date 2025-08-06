@@ -18,7 +18,7 @@ async function demonstrateLogging() {
 
 	// Initialize the file logger
 	const logFilePath = `${folders.LOGS_DIR}/demo.log`;
-	const logger = initializeLogger(logFilePath);
+	const logger = await initializeLogger(logFilePath);
 
 	console.log(`📝 Logging to: ${logFilePath}\n`);
 
