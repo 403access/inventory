@@ -62,11 +62,13 @@ export class NotionService {
 
 		const titles = databaseResponse.title;
 		if (!titles || titles.length === 0) {
-			throw new Error("Notion database title is missing.");
+			throw new Error(
+				`Notion database title is missing. ${JSON.stringify(databaseResponse)}`,
+			);
 		}
 		if (titles.length > 1) {
 			throw new Error(
-				"Notion database title is not supported yet. Please use the first title.",
+				`Notion database title is not supported yet. Please use the first title. ${JSON.stringify(databaseResponse)}`,
 			);
 		}
 		const title = titles[0];
