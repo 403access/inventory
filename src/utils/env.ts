@@ -5,9 +5,7 @@ export const getEnv = async () => {
 	const envText = await fs.readFile(ENV_FILE, "utf8").catch(() => null);
 
 	if (!envText) {
-		console.error(
-			"❌ Missing local.env file.",
-		);
+		console.error("❌ Missing local.env file.");
 		process.exit(1);
 	}
 
