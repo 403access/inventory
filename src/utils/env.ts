@@ -19,11 +19,22 @@ export const getEnv = async () => {
 	return env;
 };
 
-export const validateEnv = (env: Record<string, string>, keys: string[]) => {
+export const validateEnv = <T extends readonly string[]>(
+	env: Record<string, string>,
+	keys: T,
+): Record<T[number], string> => {
 	for (const key of keys) {
 		if (!env[key]) {
 			console.error(`❌ Missing ${key} in local.env.`);
 			process.exit(1);
 		}
 	}
+
+	// Create a type-safe object with only the validated keys
+	const validatedEnv = {} as Record<T[number], string>;
+	for (const key of keys) {
+		validatedEnv[key as T[number]] = env[key];
+	}
+
+	return validatedEnv;
 };

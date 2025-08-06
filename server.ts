@@ -1,14 +1,17 @@
 import { routesConfig } from "./src/routes/config";
 import { serveStatic } from "./src/server/serve-static";
-import { setupServer } from "./src/server/setup";
+import { getServerInfo, setupServer } from "./src/server/setup";
 
 const config = await setupServer();
 
-Bun.serve({
-	hostname: config.HOST,
-	port: 3000,
+const server = Bun.serve({
+	...getServerInfo(config),
+
 	routes: routesConfig(config),
+
+	// default handler for static files
 	fetch(req) {
 		return serveStatic(req);
 	},
 });
+console.log(`Server is running at ${server.hostname}:${server.port}`);

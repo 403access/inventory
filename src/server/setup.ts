@@ -3,34 +3,45 @@ import { LinkService } from "../services/LinkService";
 import { NotionService } from "../services/NotionService";
 import { getEnv, validateEnv } from "../utils/env";
 import { createFolders } from "../utils/folders";
+/**
+ * Get server information from the configuration.
+ * @param {SetupConfig} config - The configuration object containing server settings.
+ * @returns An object containing the hostname and port.
+ */
+export const getServerInfo = (config: SetupConfig) => {
+	const hostname = config.HOST ?? undefined;
+
+	// If PORT is not set, current bun (https://bun.sh/) default to 3000
+	const port = config.PORT ? parseInt(config.PORT, 10) : 3000;
+
+	const serverInfo = { hostname, port };
+	console.log(`Server info config: ${JSON.stringify(serverInfo)}`);
+
+	return serverInfo;
+};
 
 export const setupServer = async () => {
 	const env = await getEnv();
 
-	// TODO: Use TypeScript magic to infer these keys to properties
-	validateEnv(env, [
+	// TypeScript magic: infer these keys to properties using generic constraints
+	const typedEnv = validateEnv(env, [
 		"NOTION_API_TOKEN",
 		"NOTION_DATABASE_ID",
 		"HOST",
+		"PORT",
 		"SHORTIO_API_KEY",
-	]);
-	const { NOTION_API_TOKEN, NOTION_DATABASE_ID, HOST, SHORTIO_API_KEY } = env;
+	] as const);
 
 	setupDatabase();
 
 	const folders = await createFolders();
-	const { IMAGE_DIR, LABEL_DIR, CSV_DIR } = folders.public;
+	console.log("Folders created:", folders);
 
-	const CSV_FILE = `${CSV_DIR}/inventory.csv`;
+	const publicFolder = folders.public;
 
 	const config = {
-		NOTION_API_TOKEN,
-		NOTION_DATABASE_ID,
-		IMAGE_DIR,
-		LABEL_DIR,
-		CSV_FILE,
-		HOST,
-		SHORTIO_API_KEY,
+		...typedEnv,
+		...publicFolder,
 	};
 
 	const linkService = new LinkService(config);
