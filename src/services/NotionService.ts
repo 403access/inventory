@@ -330,7 +330,7 @@ export class NotionService {
 	}
 
 	async addPage(
-		safeName: string,
+		name: string,
 		quantity: string,
 		shortLinkPlaceholder: string,
 		convertedPath: string,
@@ -338,7 +338,7 @@ export class NotionService {
 		const notionPage = await createNotionPage(
 			this.config.NOTION_API_TOKEN,
 			this.config.NOTION_DATABASE_ID,
-			safeName,
+			name,
 			quantity,
 			shortLinkPlaceholder,
 			convertedPath,

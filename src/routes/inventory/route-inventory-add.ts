@@ -29,8 +29,8 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 		const imageService = new ImageService();
 		await imageService.convertImage(originalPath, convertedPath);
 
-		//
-		const { host, file, name, quantity } = routeUploadParams;
+		// Get relevant request parameters
+		const { host, name, quantity } = routeUploadParams;
 
 		const linkService = new LinkService(config);
 		const { originalURL, convertedURL, shortLinkPlaceholder } =
@@ -41,7 +41,7 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 		// so we use a placeholder here and replace it later
 		const notionService = new NotionService(config);
 		const notionPage = await notionService.addPage(
-			safeName,
+			name,
 			quantity,
 			shortLinkPlaceholder,
 			convertedPath,
@@ -94,6 +94,12 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 			csv_row: csvRow,
 		});
 	} catch (error) {
+		const message = error instanceof Error ? error.message : "Unknown error";
+		console.error("❌ Upload failed:", message);
+		// You can return a more specific error response if needed
+		// e.g. return new Response(`❌ Upload failed: ${message}`, { status: 500 });
+		// Or just return a generic error response
+		//
 		return new Response(`❌ Upload failed: ${error.message}`, { status: 500 });
 		// return new Response("No file uploaded or wrong field name", { status: 400 });
 	}
