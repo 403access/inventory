@@ -9,7 +9,10 @@ import {
 	isNotPartialDatabaseObjectResponse,
 } from "../notion/database-object";
 import { createNotionPage } from "../notion/page";
-import { isNotPartialPageResponse, isNotPartialUpdatePageResponse } from "../notion/page-object";
+import {
+	isNotPartialPageResponse,
+	isNotPartialUpdatePageResponse,
+} from "../notion/page-object";
 import {
 	convertQueryDatabaseResponse,
 	getTitleFromPageObjectResponse,
