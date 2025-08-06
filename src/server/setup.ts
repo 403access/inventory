@@ -47,7 +47,6 @@ export const setupServer = async () => {
 
 	const linkService = new LinkService(config);
 	linkService.setup();
-	linkService.createLink(`https://notion.so/INVENTORY-25`, "inventory/25");
 
 	const notionService = new NotionService(config);
 	await notionService.sync();
