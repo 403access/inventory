@@ -23,7 +23,6 @@ export const getServerInfo = (config: SetupConfig) => {
 export const setupServer = async () => {
 	const env = await getEnv();
 
-	// TypeScript magic: infer these keys to properties using generic constraints
 	const typedEnv = validateEnv(env, [
 		"NOTION_API_TOKEN",
 		"NOTION_DATABASE_ID",
