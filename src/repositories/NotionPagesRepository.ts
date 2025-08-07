@@ -1,4 +1,5 @@
 import { db, notionPagesTableName } from "../database/setup";
+import { log } from "../log/app-logger";
 
 export type NotionPage = {
 	id: string;
@@ -26,7 +27,7 @@ export function convertDatabaseRowToNotionPage(row: any): NotionPage {
 
 export class NotionPagesRepository {
 	public insertPage(page: NotionPage): void {
-		console.log("Inserting page:", page);
+		log("Inserting page:", page);
 
 		const sql = `
 			INSERT INTO ${notionPagesTableName} (id, database_id, title, quantity, link, image_url, created_time, last_edited_time)

@@ -1,6 +1,7 @@
 import * as fs from "node:fs/promises";
 import path from "node:path";
 import mime from "mime-types";
+import { log } from "../log/app-logger";
 
 export const uploadFileToNotion = async (notionApiKey, imagePath) => {
 	const res = await fetch("https://api.notion.com/v1/file_uploads", {
@@ -14,7 +15,7 @@ export const uploadFileToNotion = async (notionApiKey, imagePath) => {
 	});
 
 	const fileUpload = await res.json();
-	console.log("🔔 Notion file upload response:", fileUpload);
+	log("🔔 Notion file upload response:", fileUpload);
 
 	const buffer = await fs.readFile(imagePath);
 	const blob = new Blob([buffer], {
@@ -31,8 +32,8 @@ export const uploadFileToNotion = async (notionApiKey, imagePath) => {
 			"Notion-Version": "2022-06-28",
 		},
 	});
-	console.log("🔔 Notion file upload status:", uploadRes.status);
-	console.log("🔔 Notion file upload body:", await uploadRes.json());
+	log("🔔 Notion file upload status:", uploadRes.status);
+	log("🔔 Notion file upload body:", await uploadRes.json());
 
 	if (!uploadRes.ok) {
 		const text = await uploadRes.text();
@@ -41,6 +42,6 @@ export const uploadFileToNotion = async (notionApiKey, imagePath) => {
 		);
 	}
 
-	console.log(fileUpload.id, "File uploaded successfully to Notion.");
+	log(fileUpload.id, "File uploaded successfully to Notion.");
 	return fileUpload.id;
 };

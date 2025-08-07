@@ -22,6 +22,22 @@ export const getServerInfo = async (config: SetupConfig) => {
 };
 
 export const setupServer = async () => {
+	// Create necessary folders - output most likely at console
+	// TODO: We can also log this to the logger.
+	//       - For that we need to create a mock logger that caches log calls
+	//         and executes them at least on console with console.log.
+	//       - Eventually, log the created folders through
+	//         the logger once initialized later.
+	const folders = await createFolders();
+
+	// Initialize file logger
+	const logFilePath = `${folders.LOGS_DIR}/server.log`;
+	const logger = await initializeLogger(logFilePath);
+	await logger.log(`File logger initialized at ${logFilePath}`);
+
+	// Log the created folders - output through configured logger
+	await logger.log("Folders created", JSON.stringify(folders));
+
 	const env = await getEnv();
 
 	const typedEnv = validateEnv(env, [
@@ -33,15 +49,6 @@ export const setupServer = async () => {
 	] as const);
 
 	setupDatabase();
-
-	const folders = await createFolders();
-
-	// Initialize file logger
-	const logFilePath = `${folders.LOGS_DIR}/server.log`;
-	const logger = await initializeLogger(logFilePath);
-
-	await logger.log("Server setup started");
-	await logger.log("Folders created", JSON.stringify(folders));
 
 	const publicFolder = folders.public;
 	const CSV_FILE = `${folders.public.CSV_DIR}/inventory.csv`;

@@ -1,5 +1,6 @@
 import type { Client } from "@notionhq/client";
 import type { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints";
+import { log } from "../../../log/app-logger";
 import { createNotionPage } from "../../../notion/page";
 import {
 	isNotPartialPageResponse,
@@ -33,15 +34,12 @@ export const addPage = async (
 	);
 
 	if (!notionPage?.id) {
-		console.error("❌ Notion page creation failed. Missing ID:", notionPage);
+		log("❌ Notion page creation failed. Missing ID:", notionPage);
 		throw new Error("Notion page creation failed");
 	}
 
 	if (!notionPage.uniqueId) {
-		console.error(
-			"❌ Notion page creation failed. Missing unique ID:",
-			notionPage,
-		);
+		log("❌ Notion page creation failed. Missing unique ID:", notionPage);
 		throw new Error("Notion page creation failed");
 	}
 
@@ -58,16 +56,16 @@ export const storePages = async (
 	const results: NotionPage[] = [];
 	for (const page of pages.results) {
 		if (!isNotPartialPageObjectResponse(page)) {
-			console.warn("Skipping page due to missing required fields:", page.id);
+			log("Skipping page due to missing required fields:", page.id);
 			continue;
 		}
 
 		const pageId = page.id;
-		console.log("Processing page:", pageId);
+		log("Processing page:", pageId);
 
 		const title = getTitleFromPageObjectResponse(page);
 		if (!title) {
-			console.warn("Skipping page due to missing title:", pageId);
+			log("Skipping page due to missing title:", pageId);
 			continue;
 		}
 
@@ -76,10 +74,7 @@ export const storePages = async (
 			page,
 		);
 
-		console.log(
-			"last_edited_time: page.last_edited_time",
-			page.last_edited_time,
-		);
+		log("last_edited_time: page.last_edited_time", page.last_edited_time);
 		const pageEntity = {
 			id: pageId,
 			database_id: databaseId,
@@ -111,13 +106,13 @@ export const updatePage = async (
 			},
 		},
 	});
-	console.log("Notion page updated:", response);
+	log("Notion page updated:", response);
 
 	if (!isNotPartialUpdatePageResponse(response)) {
 		throw new Error("Notion API did not return a update page response.");
 	}
 
-	console.log("Updated Notion page:", response.id);
+	log("Updated Notion page:", response.id);
 };
 
 export const getPages = async (
@@ -144,7 +139,7 @@ export const getPages = async (
 	}
 
 	if (!response.results || response.results.length === 0) {
-		console.warn("No pages found in the Notion database.");
+		log("No pages found in the Notion database.");
 		return response;
 	}
 

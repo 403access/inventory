@@ -2,6 +2,7 @@ import type {
 	PageObjectResponse,
 	QueryDatabaseResponse,
 } from "@notionhq/client/build/src/api-endpoints";
+import { log } from "../log/app-logger";
 
 export type NameProperty = PageObjectResponse["properties"]["Name"];
 
@@ -55,7 +56,7 @@ export const convertQueryDatabaseResponse = (
 	title: string,
 	page: PageObjectResponse,
 ) => {
-	console.log("title:", title);
+	log("title:", title);
 
 	// let title = "Unnamed";
 	// const nameProp = page.properties?.Name;

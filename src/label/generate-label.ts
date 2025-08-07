@@ -2,6 +2,7 @@ import * as fs from "node:fs/promises";
 import path from "node:path";
 import { createCanvas } from "canvas";
 import QRCode from "qrcode";
+import { log } from "../log/app-logger";
 
 //
 //     Label dimensions
@@ -51,22 +52,22 @@ const getLabelDimensions = (): LabelDimensions => ({
 const createLabelCanvas = (dimensions: LabelDimensions) => {
 	const canvas = createCanvas(dimensions.width, dimensions.height);
 	const ctx = canvas.getContext("2d");
-	
+
 	// Fill background
 	ctx.fillStyle = "white";
 	ctx.fillRect(0, 0, dimensions.width, dimensions.height);
-	
+
 	return { canvas, ctx };
 };
 
 const drawQRCode = async (
 	ctx: any,
 	link: string,
-	dimensions: LabelDimensions
+	dimensions: LabelDimensions,
 ) => {
 	const qrX = dimensions.leftMargin;
 	const qrY = (dimensions.height - dimensions.qrSize) / 2;
-	
+
 	const qrCanvas = createCanvas(dimensions.qrSize, dimensions.qrSize);
 	await QRCode.toCanvas(qrCanvas as any, link);
 	ctx.drawImage(qrCanvas as any, qrX, qrY);
@@ -75,14 +76,14 @@ const drawQRCode = async (
 const calculateTextArea = (dimensions: LabelDimensions): TextArea => {
 	const startX = dimensions.leftMargin + dimensions.qrSize + 20; // 20px spacing after QR
 	const endX = dimensions.width - dimensions.rightMargin;
-	
+
 	return {
 		startX,
 		endX,
 		width: endX - startX,
 		startY: dimensions.topMargin,
 		endY: dimensions.height - dimensions.bottomMargin,
-		height: (dimensions.height - dimensions.bottomMargin) - dimensions.topMargin,
+		height: dimensions.height - dimensions.bottomMargin - dimensions.topMargin,
 	};
 };
 
@@ -90,17 +91,17 @@ const wrapText = (
 	ctx: any,
 	text: string,
 	maxWidth: number,
-	fontSize: number
+	fontSize: number,
 ): string[] => {
 	ctx.font = `bold ${fontSize}px Sans`;
-	const words = text.split(' ');
+	const words = text.split(" ");
 	const lines: string[] = [];
-	let currentLine = '';
+	let currentLine = "";
 
 	for (const word of words) {
 		const testLine = currentLine ? `${currentLine} ${word}` : word;
 		const testWidth = ctx.measureText(testLine).width;
-		
+
 		if (testWidth <= maxWidth) {
 			currentLine = testLine;
 		} else {
@@ -110,15 +111,15 @@ const wrapText = (
 			} else {
 				// Single word is too long, force it
 				lines.push(word);
-				currentLine = '';
+				currentLine = "";
 			}
 		}
 	}
-	
+
 	if (currentLine) {
 		lines.push(currentLine);
 	}
-	
+
 	return lines;
 };
 
@@ -127,24 +128,24 @@ const calculateOptimalFontSize = (
 	text: string,
 	textArea: TextArea,
 	maxFontSize: number = 28,
-	minFontSize: number = 12
+	minFontSize: number = 12,
 ): { fontSize: number; lines: string[]; lineHeight: number } => {
 	let fontSize = maxFontSize;
 	let lines: string[] = [];
 	let lineHeight = fontSize * 1.2;
-	
+
 	while (fontSize >= minFontSize) {
 		lines = wrapText(ctx, text, textArea.width, fontSize);
 		lineHeight = fontSize * 1.2;
 		const totalTextHeight = lines.length * lineHeight;
-		
+
 		if (totalTextHeight <= textArea.height) {
 			break; // Text fits!
 		}
-		
+
 		fontSize -= 2; // Reduce font size and try again
 	}
-	
+
 	return { fontSize, lines, lineHeight };
 };
 
@@ -153,16 +154,17 @@ const drawText = (
 	lines: string[],
 	textArea: TextArea,
 	fontSize: number,
-	lineHeight: number
+	lineHeight: number,
 ) => {
 	ctx.fillStyle = "black";
 	ctx.font = `bold ${fontSize}px Sans`;
-	
+
 	const totalTextHeight = lines.length * lineHeight;
-	const startY = textArea.startY + (textArea.height - totalTextHeight) / 2 + fontSize;
-	
+	const startY =
+		textArea.startY + (textArea.height - totalTextHeight) / 2 + fontSize;
+
 	lines.forEach((line, index) => {
-		const y = startY + (index * lineHeight);
+		const y = startY + index * lineHeight;
 		ctx.fillText(line, textArea.startX, y);
 	});
 };
@@ -170,7 +172,7 @@ const drawText = (
 const saveLabelToFile = async (
 	canvas: any,
 	labelDir: string,
-	id: string
+	id: string,
 ): Promise<{ labelPath: string; labelFileName: string }> => {
 	const labelFileName = `label_${id}.png`;
 	const labelPath = path.join(labelDir, labelFileName);
@@ -184,17 +186,21 @@ export const generateLabel = async (
 	link: string,
 	id: string,
 ) => {
-	console.log("🧾 Generating label with ID:", id);
-	
+	log("🧾 Generating label with ID:", id);
+
 	const dimensions = getLabelDimensions();
 	const { canvas, ctx } = createLabelCanvas(dimensions);
-	
+
 	await drawQRCode(ctx, link, dimensions);
-	
+
 	const textArea = calculateTextArea(dimensions);
-	const { fontSize, lines, lineHeight } = calculateOptimalFontSize(ctx, name, textArea);
-	
+	const { fontSize, lines, lineHeight } = calculateOptimalFontSize(
+		ctx,
+		name,
+		textArea,
+	);
+
 	drawText(ctx, lines, textArea, fontSize, lineHeight);
-	
+
 	return await saveLabelToFile(canvas, labelDir, id);
 };

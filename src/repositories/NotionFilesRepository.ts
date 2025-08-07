@@ -1,4 +1,5 @@
 import { db, notionFilesTableName } from "../database/setup";
+import { log } from "../log/app-logger";
 
 export type NotionFile = {
 	id: string;
@@ -22,7 +23,7 @@ export function convertDatabaseRowToNotionFile(row: any): NotionFile {
 
 export class NotionFilesRepository {
 	public insertFile(file: NotionFile): void {
-		console.log("Inserting file:", file);
+		log("Inserting file:", file);
 
 		const sql = `
             INSERT INTO ${notionFilesTableName} (id, page_id, file_url)
@@ -32,7 +33,7 @@ export class NotionFilesRepository {
 	}
 
 	public insertFiles(files: NotionFile[]): void {
-		console.log("Inserting files:", files);
+		log("Inserting files:", files);
 		const sql = `
 			INSERT INTO ${notionFilesTableName} (id, database_id, page_id, file_url, created_time, last_edited_time)
 			VALUES (?, ?, ?, ?, ?, ?)

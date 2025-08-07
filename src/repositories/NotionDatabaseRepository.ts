@@ -1,4 +1,5 @@
 import { db, notionDatabaseTableName } from "../database/setup";
+import { log } from "../log/app-logger";
 import type { SetupConfig } from "../server/setup";
 
 export type NotionDatabase = {
@@ -23,7 +24,7 @@ export class NotionDatabaseRepository {
 	constructor(private setup: SetupConfig) {}
 
 	public insertDatabase(database: NotionDatabase): void {
-		console.log("Inserting database:", database);
+		log("Inserting database:", database);
 
 		const sql = `
 				INSERT INTO ${notionDatabaseTableName} (id, title, url, created_time, last_edited_time)
@@ -39,7 +40,7 @@ export class NotionDatabaseRepository {
 	}
 
 	public updateDatabase(database: NotionDatabase): void {
-		console.log("Updating database:", database);
+		log("Updating database:", database);
 		const sql = `
 			UPDATE ${notionDatabaseTableName}
 			SET title = ?, url = ?, last_edited_time = ?

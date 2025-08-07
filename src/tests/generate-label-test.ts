@@ -8,6 +8,7 @@
 // Basically, snapshot testing for the label generation.
 //
 import { generateLabel } from "../label/generate-label";
+import { log } from "../log/app-logger";
 
 const testData = [
 	{
@@ -33,7 +34,7 @@ const testGenerateLabel = async () => {
 
 	try {
 		for (const { itemName, shortLink, notionId } of testData) {
-			console.log(`Generating label for: ${itemName}`);
+			log(`Generating label for: ${itemName}`);
 
 			const { labelPath, labelFileName } = await generateLabel(
 				labelDir,
@@ -41,14 +42,14 @@ const testGenerateLabel = async () => {
 				shortLink,
 				notionId,
 			);
-			console.log(`Label generated: ${labelPath}`);
-			console.log(`Label file name: ${labelFileName}`);
+			log(`Label generated: ${labelPath}`);
+			log(`Label file name: ${labelFileName}`);
 		}
 	} catch (error) {
-		console.error("Error generating label:", error);
+		log("Error generating label:", error);
 	}
 };
 
 testGenerateLabel()
-	.then(() => console.log("Label generation test completed successfully."))
-	.catch((error) => console.error("Label generation test failed:", error));
+	.then(() => log("Label generation test completed successfully."))
+	.catch((error) => log("Label generation test failed:", error));

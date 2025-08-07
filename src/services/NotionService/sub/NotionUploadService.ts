@@ -1,4 +1,5 @@
 import type { Client } from "@notionhq/client";
+import { log } from "../../../log/app-logger";
 import {
 	getBlockImageFileOrNull,
 	type getBlockImageFileOrNullReturnType,
@@ -22,7 +23,7 @@ export const getUploadedFile = async (
 	for (const block of res.results) {
 		const imageBlock = getBlockImageFileOrNull(block);
 		if (imageBlock) {
-			console.log("Found image block:", imageBlock);
+			log("Found image block:", imageBlock);
 			return imageBlock;
 		}
 	}
@@ -34,7 +35,7 @@ export const getUploadedFiles = async (
 	notionClient: Client,
 	pageId: string,
 ) => {
-	console.log("Fetching uploaded files for page:", pageId);
+	log("Fetching uploaded files for page:", pageId);
 
 	const blocks = await notionClient.blocks.children.list({
 		block_id: pageId,
@@ -51,7 +52,7 @@ export const getUploadedFiles = async (
 	for (const block of blocks.results) {
 		const imageFileBlock = getBlockImageFileOrNull(block);
 		if (imageFileBlock) {
-			console.log("Found image block:", imageFileBlock);
+			log("Found image block:", imageFileBlock);
 			results.push({
 				id: block.id,
 				...imageFileBlock,

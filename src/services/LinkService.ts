@@ -1,4 +1,5 @@
 import { postLinks, setApiKey } from "@short.io/client-node";
+import { log } from "../log/app-logger";
 import { appendToCSV } from "../media/csv";
 import { buildLinks, buildShortLink } from "../media/links";
 import type { SetupConfig } from "../server/setup";
@@ -22,10 +23,10 @@ export class LinkService {
 				},
 			});
 
-			console.log("Short URL:", result?.data?.shortURL);
-			console.log("Link ID:", result?.data?.idString);
+			log("Short URL:", result?.data?.shortURL);
+			log("Link ID:", result?.data?.idString);
 		} catch (error) {
-			console.error("Error creating link:", error);
+			log("Error creating link:", error);
 		}
 	}
 

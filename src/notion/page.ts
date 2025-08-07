@@ -1,3 +1,4 @@
+import { log } from "../log/app-logger";
 import { convertAndStoreFile } from "../media/convert";
 import { uploadFileToNotion } from "./upload";
 
@@ -56,7 +57,7 @@ export const createNotionPage = async (
 	});
 
 	const data = await response.json();
-	console.log("🔔 Notion response:", data);
+	log("🔔 Notion response:", data);
 
 	const uniqueIdPrefix = data.properties.ID.unique_id.prefix;
 	const uniqueIdNumber = data.properties.ID.unique_id.number;
@@ -67,6 +68,6 @@ export const createNotionPage = async (
 		id: data.id,
 		uniqueIdNumber,
 		uniqueIdPrefix,
-		uniqueId
+		uniqueId,
 	};
 };

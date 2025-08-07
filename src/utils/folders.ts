@@ -1,4 +1,5 @@
 import * as fs from "node:fs/promises";
+import { log } from "../log/app-logger";
 
 /**
  * InvertFolderSpec takes a folder specification object and inverts it.
@@ -75,10 +76,10 @@ async function createFoldersRecursive<T extends FolderSpecification>(
 
 			const fileOrFolderExists = await fs.exists(currentPath);
 			if (fileOrFolderExists) {
-				console.log(`✅ Folder already exists: ${currentPath}`);
+				log(`✅ Folder already exists: ${currentPath}`);
 			} else {
 				await fs.mkdir(currentPath, { recursive: true });
-				console.log(`✅ Created folder: ${currentPath}`);
+				log(`✅ Created folder: ${currentPath}`);
 			}
 
 			if (typeof value === "string") {

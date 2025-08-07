@@ -1,8 +1,9 @@
 import { exec } from "node:child_process";
+import { log } from "../log/app-logger";
 
 export const printLabel = async (filePath: string) => {
-	console.log("🖨 Printing label:", filePath);
+	log("🖨 Printing label:", filePath);
 	exec(`lp "${filePath}"`, (error) => {
-		if (error) console.error("Print error:", error);
+		if (error) log("Print error:", error);
 	});
 };

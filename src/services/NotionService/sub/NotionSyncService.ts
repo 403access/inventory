@@ -25,7 +25,7 @@ export const sync = async (
 
 	// get notion database from notion API
 	const newDatabase = await getDatabase(notionClient, databaseId);
-	// console.log("New Notion database from API:", newDatabase);
+	// log("New Notion database from API:", newDatabase);
 
 	// if not exists or has a different id or last_edited_time, create it
 	if (currentDatabase === null || currentDatabase.id !== newDatabase.id) {
@@ -81,7 +81,7 @@ export const sync = async (
 	// } else if (lastEditedPage) {
 	// 	lastPage = lastEditedPage;
 	// }
-	// console.log("Last page:", lastPage);
+	// log("Last page:", lastPage);
 
 	// get uploaded files for each page
 	// and store them in the database if not already stored

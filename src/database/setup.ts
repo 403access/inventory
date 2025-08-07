@@ -1,4 +1,5 @@
 import Database from "bun:sqlite";
+import { log } from "../log/app-logger";
 
 // Initialize the SQLite database file (creates if it doesn't exist)
 export const db = new Database("inventory.db");
@@ -18,7 +19,7 @@ export const setupDatabase = () => {
             );
         `);
 
-	console.log(
+	log(
 		"Notion databases table created:",
 		createNotionDatabaseQueryResult.changes,
 	);
@@ -38,7 +39,7 @@ export const setupDatabase = () => {
             );
         `);
 
-	console.log("Notion entries table created:", createNotionPagesQueryResult);
+	log("Notion entries table created:", createNotionPagesQueryResult);
 
 	const createNotionFilesQueryResult = db.exec(`
             CREATE TABLE IF NOT EXISTS ${notionFilesTableName} (
@@ -54,5 +55,5 @@ export const setupDatabase = () => {
             );
     `);
 
-	console.log("Notion files table created:", createNotionFilesQueryResult);
+	log("Notion files table created:", createNotionFilesQueryResult);
 };

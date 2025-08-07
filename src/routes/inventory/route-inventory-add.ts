@@ -1,3 +1,4 @@
+import { log } from "../../log/app-logger";
 import type { SetupConfig } from "../../server/setup";
 import { ImageService } from "../../services/ImageService";
 import { LabelService } from "../../services/LabelService";
@@ -8,13 +9,13 @@ import { getRouteInventoryAddParams } from "./route-inventory-add-params";
 
 export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 	try {
-		console.log("📤 Upload received");
+		log("📤 Upload received");
 
 		// Extract form data
 		const formData = await req.formData();
 		const routeUploadParams = getRouteInventoryAddParams(req.headers, formData);
 
-		console.log("Route upload params:", routeUploadParams);
+		log("Route upload params:", routeUploadParams);
 
 		const uploadService = new UploadService(config);
 		const {

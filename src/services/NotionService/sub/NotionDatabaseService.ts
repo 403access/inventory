@@ -1,4 +1,5 @@
 import type { DatabaseObjectResponse } from "@notionhq/client";
+import { log } from "../../../log/app-logger";
 import { assertNotionDatabaseId } from "../../../notion/database-object";
 import { NotionDatabaseRepository } from "../../../repositories/NotionDatabaseRepository";
 import type { SetupConfig } from "../../../server/setup";
@@ -13,7 +14,7 @@ export const storeDatabase = async (
 
 	const notionDatabase =
 		convertDatabaseObjectResponseToDatabase(databaseResponse);
-	console.log("Storing Notion database:", notionDatabase);
+	log("Storing Notion database:", notionDatabase);
 
 	notionDatabaseRepository.insertDatabase(notionDatabase);
 };
@@ -27,7 +28,7 @@ export const updateDatabase = async (
 
 	const notionDatabase =
 		convertDatabaseObjectResponseToDatabase(databaseResponse);
-	console.log("Updating Notion database:", notionDatabase);
+	log("Updating Notion database:", notionDatabase);
 
 	notionDatabaseRepository.updateDatabase(notionDatabase);
 };
