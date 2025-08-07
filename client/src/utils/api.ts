@@ -1,6 +1,8 @@
-console.log("API_HOST", import.meta.env.VITE_API_HOST);
-console.log("All env vars:", import.meta.env);
-const host = import.meta.env.VITE_API_HOST || "http://localhost:3000";
+// console.log("API_HOST", import.meta.env.VITE_API_HOST);
+// console.log("All env vars:", import.meta.env);
+// const host = import.meta.env.VITE_API_HOST || "http://localhost:3000";
+
+const host = "http://localhost:3000";
 
 export type UploadInventoryParams = {
 	file: File;
