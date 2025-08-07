@@ -26,9 +26,10 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 
 		// Extract form data
 		const formData = await req.formData();
-		const routeUploadParams = getRouteInventoryAddParams(req.headers, formData);
+		log("Form data received:", JSON.stringify(formData));
 
-		log("Route upload params:", routeUploadParams);
+		const routeUploadParams = getRouteInventoryAddParams(req.headers, formData);
+		log("Route upload params:", JSON.stringify(routeUploadParams));
 
 		const uploadService = new UploadService(config);
 		const {
@@ -38,10 +39,18 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 			convertedFilename,
 			safeName,
 		} = await uploadService.uploadFile(routeUploadParams);
+		log("File uploaded:", {
+			originalPath,
+			convertedPath,
+			originalFilename,
+			convertedFilename,
+			safeName,
+		});
 
 		// Convert image if necessary, e.g. iOS photos (HEIC to JPG)
 		const imageService = new ImageService();
 		await imageService.convertImage(originalPath, convertedPath);
+		log("Image converted if necessary:", convertedPath);
 
 		// Get relevant request parameters
 		const { host, name, quantity } = routeUploadParams;
@@ -49,6 +58,11 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 		const linkService = new LinkService(config);
 		const { originalURL, convertedURL, shortLinkPlaceholder } =
 			linkService.buildLinks(host, originalFilename, convertedFilename);
+		log("Links built:", {
+			originalURL,
+			convertedURL,
+			shortLinkPlaceholder,
+		});
 
 		// Create entry in notion database
 		// Notes: The short link is created after the page is added to Notion
@@ -60,13 +74,18 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 			shortLinkPlaceholder,
 			convertedPath,
 		);
+		log("Notion page created:", JSON.stringify(notionPage));
 
 		// Create and store short link
 		const notionUniqueIdUrl = `https://www.notion.so/${notionPage.uniqueId}`;
+		log("Notion unique ID URL:", notionUniqueIdUrl);
+
 		const lowercaseUniqueIdPrefix = notionPage.uniqueIdPrefix.toLowerCase();
 		const shortLink = await linkService.buildShortLink(
 			notionPage.uniqueIdNumber,
 		);
+		log("Short link created:", shortLink);
+
 		const csvRow = await linkService.storeShortLinkInCSV(
 			notionPage.url,
 			safeName,
@@ -75,6 +94,8 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 			convertedURL,
 			shortLink,
 		);
+		log("Short link stored in CSV:", JSON.stringify(csvRow));
+
 		linkService.createLink(
 			notionUniqueIdUrl,
 			`${lowercaseUniqueIdPrefix}/${notionPage.uniqueIdNumber}`,
@@ -91,11 +112,13 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 			shortLink,
 			notionPage.id,
 		);
+		log("Label generated:", labelPath);
+		log("Label file name:", labelFileName);
 		await labelService.printLabel(labelPath);
 
 		const labelUrl = `/public/labels/${labelFileName}`;
 
-		return Response.json({
+		const response = {
 			id: notionPage.id,
 			name,
 			safeName,
@@ -107,7 +130,10 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 			label_path: labelPath,
 			label_url: labelUrl,
 			csv_row: csvRow,
-		});
+		};
+		log("Inventory item add response:", JSON.stringify(response));
+
+		return Response.json(response);
 	} catch (error) {
 		const message = error instanceof Error ? error.message : "Unknown error";
 		console.error("❌ Upload failed:", message);
