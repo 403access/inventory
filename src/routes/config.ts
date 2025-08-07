@@ -1,5 +1,6 @@
 import type { BunRequest } from "bun";
 import type { SetupConfig } from "../server/setup";
+import homepage from "./client/index.html";
 import { routeInventoryAdd } from "./inventory/route-inventory-add";
 import { routeInventoryGet } from "./inventory/route-inventory-get";
 import { corsMiddleware as cors } from "./middlewares/cors";
@@ -32,4 +33,5 @@ export const routesConfig = (config: SetupConfig) => ({
 		GET: async (req: BunRequest) => await routeInventoryGet(req, config),
 		POST: async (req: BunRequest) => await routeInventoryAdd(req, config),
 	},
+	"/": homepage,
 });
