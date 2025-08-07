@@ -1,5 +1,8 @@
 import type { Client } from "@notionhq/client";
-import type { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints";
+import type {
+	QueryDatabaseParameters,
+	QueryDatabaseResponse,
+} from "@notionhq/client/build/src/api-endpoints";
 import { log } from "../../../log/app-logger";
 import { createNotionPage } from "../../../notion/page";
 import {
@@ -98,6 +101,7 @@ export const updatePage = async (
 	pageId: string,
 	shortLink: string,
 ): Promise<void> => {
+	log("Updating Notion page:", pageId, "with short link:", shortLink);
 	const response = await notionClient.pages.update({
 		page_id: pageId,
 		properties: {
@@ -115,24 +119,44 @@ export const updatePage = async (
 	log("Updated Notion page:", response.id);
 };
 
+export const getNotionDatabaseQueryArgs = (
+	database_id: string,
+	lastUpdatedTime?: string,
+) => {
+	const queryArgs: QueryDatabaseParameters = {
+		database_id,
+	};
+
+	if (lastUpdatedTime !== undefined) {
+		const filterByCreatedTimeAfter: QueryDatabaseParameters["filter"] = {
+			property: "Created",
+			created_time: {
+				after: lastUpdatedTime,
+			},
+		};
+
+		queryArgs.filter = filterByCreatedTimeAfter;
+	}
+
+	return queryArgs;
+};
+
 export const getPages = async (
 	notionClient: Client,
 	databaseId: string,
 	lastUpdatedTime?: string,
 ) => {
-	const response = await notionClient.databases.query({
-		database_id: databaseId,
-		...(lastUpdatedTime
-			? {
-					filter: {
-						property: "Created",
-						created_time: {
-							after: lastUpdatedTime,
-						},
-					},
-				}
-			: {}),
-	});
+	log(
+		"Querying Notion database for pages:",
+		databaseId,
+		"after:",
+		lastUpdatedTime,
+	);
+
+	const queryArgs = getNotionDatabaseQueryArgs(databaseId, lastUpdatedTime);
+	log("Query arguments:", JSON.stringify(queryArgs));
+
+	const response = await notionClient.databases.query(queryArgs);
 
 	if (!isNotPartialPageResponse(response)) {
 		throw new Error("Notion API did not return a full page object.");
