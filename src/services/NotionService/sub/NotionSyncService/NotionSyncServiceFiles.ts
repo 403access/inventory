@@ -16,6 +16,8 @@ export const syncFiles = async (
 		await log("Processing page for uploaded files:", page.id);
 
 		const uploadedFiles = await getUploadedFiles(notionClient, page.id);
+		log("Uploaded files for page:", page.id, JSON.stringify(uploadedFiles));
+
 		if (!uploadedFiles) {
 			await log("No uploaded files found for page:", page.id);
 			continue;
