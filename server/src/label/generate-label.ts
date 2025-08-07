@@ -1,6 +1,6 @@
 import * as fs from "node:fs/promises";
 import path from "node:path";
-import { createCanvas } from "canvas";
+// import { createCanvas } from "canvas";
 import QRCode from "qrcode";
 import { log } from "../log/app-logger";
 
@@ -50,14 +50,12 @@ const getLabelDimensions = (): LabelDimensions => ({
 });
 
 const createLabelCanvas = (dimensions: LabelDimensions) => {
-	const canvas = createCanvas(dimensions.width, dimensions.height);
-	const ctx = canvas.getContext("2d");
-
-	// Fill background
-	ctx.fillStyle = "white";
-	ctx.fillRect(0, 0, dimensions.width, dimensions.height);
-
-	return { canvas, ctx };
+	// const canvas = createCanvas(dimensions.width, dimensions.height);
+	// const ctx = canvas.getContext("2d");
+	// // Fill background
+	// ctx.fillStyle = "white";
+	// ctx.fillRect(0, 0, dimensions.width, dimensions.height);
+	// return { canvas, ctx };
 };
 
 const drawQRCode = async (
@@ -68,9 +66,9 @@ const drawQRCode = async (
 	const qrX = dimensions.leftMargin;
 	const qrY = (dimensions.height - dimensions.qrSize) / 2;
 
-	const qrCanvas = createCanvas(dimensions.qrSize, dimensions.qrSize);
-	await QRCode.toCanvas(qrCanvas as any, link);
-	ctx.drawImage(qrCanvas as any, qrX, qrY);
+	// const qrCanvas = createCanvas(dimensions.qrSize, dimensions.qrSize);
+	// await QRCode.toCanvas(qrCanvas as any, link);
+	// ctx.drawImage(qrCanvas as any, qrX, qrY);
 };
 
 const calculateTextArea = (dimensions: LabelDimensions): TextArea => {
@@ -188,19 +186,19 @@ export const generateLabel = async (
 ) => {
 	log("🧾 Generating label with ID:", id);
 
-	const dimensions = getLabelDimensions();
-	const { canvas, ctx } = createLabelCanvas(dimensions);
+	// const dimensions = getLabelDimensions();
+	// const { canvas, ctx } = createLabelCanvas(dimensions);
 
-	await drawQRCode(ctx, link, dimensions);
+	// await drawQRCode(ctx, link, dimensions);
 
-	const textArea = calculateTextArea(dimensions);
-	const { fontSize, lines, lineHeight } = calculateOptimalFontSize(
-		ctx,
-		name,
-		textArea,
-	);
+	// const textArea = calculateTextArea(dimensions);
+	// const { fontSize, lines, lineHeight } = calculateOptimalFontSize(
+	// 	ctx,
+	// 	name,
+	// 	textArea,
+	// );
 
-	drawText(ctx, lines, textArea, fontSize, lineHeight);
+	// drawText(ctx, lines, textArea, fontSize, lineHeight);
 
-	return await saveLabelToFile(canvas, labelDir, id);
+	// return await saveLabelToFile(canvas, labelDir, id);
 };
