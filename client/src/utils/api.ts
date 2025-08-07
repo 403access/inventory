@@ -22,7 +22,9 @@ export type UploadResponse = {
 	csv_row: any;
 };
 
-export const uploadInventoryItem = async (params: UploadInventoryParams): Promise<UploadResponse> => {
+export const uploadInventoryItem = async (
+	params: UploadInventoryParams,
+): Promise<UploadResponse> => {
 	const formData = new FormData();
 	formData.append("file", params.file);
 	formData.append("name", params.name);

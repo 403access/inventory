@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Page } from "../components/Page";
-import { fetchFiles } from "../utils/api";
 import { PageView } from "../components/pages/PageView";
+import { fetchFiles } from "../utils/api";
 
 export type NotionPage = {
     id: string;
@@ -13,7 +13,6 @@ export type NotionPage = {
     created_time: string;
     last_edited_time: string | null;
 };
-
 
 export const PagesPage = () => {
     const query = useQuery({

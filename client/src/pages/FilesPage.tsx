@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+import { FileView } from "../components/files/FileView";
 import { Page } from "../components/Page";
 import { fetchFiles } from "../utils/api";
-import { FileView } from "../components/files/FileView";
 
 export type NotionFile = {
     id: string;
