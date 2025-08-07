@@ -1,5 +1,5 @@
 import { setupDatabase } from "../database/setup";
-import { initializeLogger } from "../log/app-logger";
+import { initializeLogger, log } from "../log/app-logger";
 import { LinkService } from "../services/LinkService";
 import { NotionService } from "../services/NotionService";
 import { getEnv, validateEnv } from "../utils/env";
@@ -16,7 +16,7 @@ export const getServerInfo = async (config: SetupConfig) => {
 	const port = config.PORT ? parseInt(config.PORT, 10) : 3000;
 
 	const serverInfo = { hostname, port };
-	await config.logger.log(`Server info config: ${JSON.stringify(serverInfo)}`);
+	await log(`Server info config: ${JSON.stringify(serverInfo)}`);
 
 	return serverInfo;
 };
@@ -32,11 +32,10 @@ export const setupServer = async () => {
 
 	// Initialize file logger
 	const logFilePath = `${folders.LOGS_DIR}/server.log`;
-	const logger = await initializeLogger(logFilePath);
-	await logger.log(`File logger initialized at ${logFilePath}`);
+	await log(`File logger initialized at ${logFilePath}`);
 
 	// Log the created folders - output through configured logger
-	await logger.log("Folders created", JSON.stringify(folders));
+	await log("Folders created", JSON.stringify(folders));
 
 	const env = await getEnv();
 
@@ -58,7 +57,6 @@ export const setupServer = async () => {
 		...publicFolder,
 		CSV_FILE,
 		LOGS_DIR: folders.LOGS_DIR,
-		logger,
 	};
 
 	const linkService = new LinkService(config);
@@ -67,7 +65,7 @@ export const setupServer = async () => {
 	const notionService = new NotionService(config);
 	await notionService.sync();
 
-	await logger.log("Server setup completed successfully");
+	await log("Server setup completed successfully");
 
 	return config;
 };
