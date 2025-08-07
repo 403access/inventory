@@ -1,5 +1,5 @@
 import { setupDatabase } from "../database/setup";
-import { initializeLogger, log } from "../log/app-logger";
+import { log } from "../log/app-logger";
 import { LinkService } from "../services/LinkService";
 import { NotionService } from "../services/NotionService";
 import { getEnv, validateEnv } from "../utils/env";
