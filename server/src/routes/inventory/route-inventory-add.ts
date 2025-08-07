@@ -87,7 +87,7 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 		const labelService = new LabelService();
 		const { labelPath, labelFileName } = await labelService.generateLabel(
 			config.LABEL_DIR,
-			safeName,
+			name,
 			shortLink,
 			notionPage.id,
 		);
@@ -97,7 +97,8 @@ export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 
 		return Response.json({
 			id: notionPage.id,
-			name: safeName,
+			name,
+			safeName,
 			quantity,
 			original: originalURL,
 			converted: convertedURL,
