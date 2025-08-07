@@ -6,7 +6,7 @@ export const createNotionPage = async (
 	notionApiKey: string,
 	notionDatabaseId: string,
 	name: string,
-	quantity: string,
+	quantity: number,
 	link: string,
 	imageURL: string,
 ) => {

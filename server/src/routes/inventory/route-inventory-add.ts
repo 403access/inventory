@@ -7,6 +7,19 @@ import { NotionService } from "../../services/NotionService";
 import { UploadService } from "../../services/UploadService";
 import { getRouteInventoryAddParams } from "./route-inventory-add-params";
 
+export type InventoryAddResponse = Awaited<
+	ReturnType<typeof routeInventoryAdd>
+>;
+
+/**
+ * Handles the inventory addition route.
+ * This function processes the uploaded file, converts it if necessary,
+ * creates a Notion page, generates a short link, and creates a label.
+ *
+ * @param req - The request object containing the uploaded file.
+ * @param config - The setup configuration.
+ * @returns A JSON response with the inventory item details or an error message.
+ */
 export const routeInventoryAdd = async (req: Request, config: SetupConfig) => {
 	try {
 		log("📤 Upload received");

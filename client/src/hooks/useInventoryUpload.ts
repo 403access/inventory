@@ -1,9 +1,9 @@
 import { useState } from "react";
-import type { UploadResponse } from "../utils/api";
+import type { InventoryAddResponse } from "../../../server/src/routes/inventory/route-inventory-add";
 import { uploadInventoryItem } from "../utils/api";
 
 interface UseInventoryUploadProps {
-	onSuccess?: (result: UploadResponse) => void;
+	onSuccess?: (result: InventoryAddResponse) => void;
 	onError?: (error: string) => void;
 }
 
@@ -15,7 +15,9 @@ export const useInventoryUpload = ({
 	const [name, setName] = useState("");
 	const [quantity, setQuantity] = useState(1);
 	const [isUploading, setIsUploading] = useState(false);
-	const [uploadResult, setUploadResult] = useState<UploadResponse | null>(null);
+	const [uploadResult, setUploadResult] = useState<InventoryAddResponse | null>(
+		null,
+	);
 	const [error, setError] = useState<string | null>(null);
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 

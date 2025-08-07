@@ -14,7 +14,7 @@ export const getRouteInventoryAddParams = (
 		host: getHostFromHeader(headers),
 		file,
 		name: formData.get("name")?.toString() || file.name || "uploaded",
-		quantity: formData.get("quantity")?.toString() || "1",
+		quantity: parseInt(formData.get("quantity")?.toString() || "1", 10),
 	};
 };
 export type UploadParams = ReturnType<typeof getRouteInventoryAddParams>;

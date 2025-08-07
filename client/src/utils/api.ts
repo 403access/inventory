@@ -1,28 +1,11 @@
+import type { InventoryAddResponse } from "../../../server/src/routes/inventory/route-inventory-add";
+import type { UploadParams } from "../../../server/src/routes/inventory/route-inventory-add-params";
+
 const host = "";
 
-export type UploadInventoryParams = {
-	file: File;
-	name: string;
-	quantity: number;
-	host: string;
-};
-
-export type UploadResponse = {
-	id: string;
-	name: string;
-	quantity: number;
-	original: string;
-	converted: string;
-	link: string;
-	target_link: string;
-	label_path: string;
-	label_url: string;
-	csv_row: any;
-};
-
 export const uploadInventoryItem = async (
-	params: UploadInventoryParams,
-): Promise<UploadResponse> => {
+	params: UploadParams,
+): Promise<InventoryAddResponse> => {
 	const formData = new FormData();
 	formData.append("file", params.file);
 	formData.append("name", params.name);

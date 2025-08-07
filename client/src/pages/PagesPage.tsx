@@ -1,18 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+import type { NotionPage } from "../../../server/src/repositories/NotionPagesRepository";
 import { Page } from "../components/Page";
 import { PageView } from "../components/pages/PageView";
 import { fetchFiles } from "../utils/api";
-
-export type NotionPage = {
-    id: string;
-    database_id: string;
-    title: string;
-    quantity: number;
-    link: string;
-    image_url: string;
-    created_time: string;
-    last_edited_time: string | null;
-};
 
 export const PagesPage = () => {
     const query = useQuery({

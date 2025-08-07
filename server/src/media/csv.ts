@@ -4,7 +4,7 @@ export const appendToCSV = async (
 	csvFile: string,
 	notionUrl: string,
 	safeName: string,
-	quantity: string,
+	quantity: number,
 	originalFilename: string,
 	convertedURL: string,
 	shortLink: string,

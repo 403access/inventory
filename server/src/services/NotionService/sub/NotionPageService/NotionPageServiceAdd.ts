@@ -15,7 +15,7 @@ import type { SetupConfig } from "../../../../server/setup";
 export const addPage = async (
 	config: SetupConfig,
 	name: string,
-	quantity: string,
+	quantity: number,
 	shortLinkPlaceholder: string,
 	convertedPath: string,
 ) => {

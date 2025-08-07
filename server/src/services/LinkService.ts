@@ -37,7 +37,7 @@ export class LinkService {
 	async storeShortLinkInCSV(
 		notionPageUrl: string,
 		safeName: string,
-		quantity: string,
+		quantity: number,
 		originalFilename: string,
 		convertedURL: string,
 		shortLink: string,
