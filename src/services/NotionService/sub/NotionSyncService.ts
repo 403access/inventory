@@ -9,7 +9,7 @@ import * as NotionDatabaseService from "./NotionDatabaseService";
 import * as NotionPageService from "./NotionPageService";
 import { getUploadedFiles } from "./NotionUploadService";
 
-export const sync = async (
+export const syncDatabase = async (
 	config: SetupConfig,
 	notionClient: Client,
 	databaseId: string,
@@ -39,7 +39,9 @@ export const sync = async (
 	} else {
 		await log("Notion database is up-to-date in DB.");
 	}
+};
 
+export const syncPages = async (notionClient: Client, databaseId: string) => {
 	// build last edited time from the most recent edited page or null
 	const notionPagesRepository = new NotionPagesRepository();
 	const lastEditedPage = notionPagesRepository.getMostRecentEditedPage();
@@ -83,6 +85,14 @@ export const sync = async (
 	// }
 	// log("Last page:", lastPage);
 
+	return storedPages.map(({ id }) => ({ id }));
+};
+
+export const syncFiles = async (
+	notionClient: Client,
+	databaseId: string,
+	storedPages: Array<{ id: string }>,
+) => {
 	// get uploaded files for each page
 	// and store them in the database if not already stored
 	const notionFilesRepository = new NotionFilesRepository();
@@ -106,4 +116,29 @@ export const sync = async (
 		notionFilesRepository.insertFiles(filesToInsert);
 		await log("Inserted file for page:", page.id);
 	}
+};
+
+export const sync = async (
+	config: SetupConfig,
+	notionClient: Client,
+	databaseId: string,
+) => {
+	await log("Notion sync started.");
+
+	// Sync Notion database
+	await log("Start Syncing Notion database...");
+	await syncDatabase(config, notionClient, databaseId);
+	await log("Notion database synced successfully.");
+
+	// Sync Notion pages
+	await log("Syncing Notion pages...");
+	const pages = await syncPages(notionClient, databaseId);
+	await log("Notion pages synced successfully.");
+
+	// Sync Notion files
+	await log("Syncing Notion files...");
+	await syncFiles(notionClient, databaseId, pages);
+	await log("Notion files synced successfully.");
+
+	await log("Notion sync completed successfully");
 };
