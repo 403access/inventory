@@ -1,7 +1,7 @@
 import type { Client } from "@notionhq/client";
 import { log } from "../../../../log/app-logger";
 import { NotionPagesRepository } from "../../../../repositories/NotionPagesRepository";
-import * as NotionPageService from "../NotionPageService";
+import * as NotionPageService from "../NotionPageService/NotionPageService";
 
 export const syncPages = async (notionClient: Client, databaseId: string) => {
 	// build last edited time from the most recent edited page or null

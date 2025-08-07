@@ -6,7 +6,7 @@ import type { SetupConfig } from "../server/setup";
 import type { ExcludeFirstParam } from "../types/helpers";
 import * as NotionServiceBase from "./NotionService/NotionServiceBase";
 import * as NotionDatabaseService from "./NotionService/sub/NotionDatabaseService";
-import * as NotionPageService from "./NotionService/sub/NotionPageService";
+import * as NotionPageService from "./NotionService/sub/NotionPageService/NotionPageService";
 import { sync } from "./NotionService/sub/NotionSyncService/NotionSyncService";
 import * as NotionUploadService from "./NotionService/sub/NotionUploadService";
 

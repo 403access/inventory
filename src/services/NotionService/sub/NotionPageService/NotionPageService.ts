@@ -3,22 +3,22 @@ import type {
 	QueryDatabaseParameters,
 	QueryDatabaseResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import { log } from "../../../log/app-logger";
-import { createNotionPage } from "../../../notion/page";
+import { log } from "../../../../log/app-logger";
+import { createNotionPage } from "../../../../notion/page";
 import {
 	isNotPartialPageResponse,
 	isNotPartialUpdatePageResponse,
-} from "../../../notion/page-object";
+} from "../../../../notion/page-object";
 import {
 	convertQueryDatabaseResponse,
 	getTitleFromPageObjectResponse,
 	isNotPartialPageObjectResponse,
-} from "../../../notion/queryDatabaseResponse";
+} from "../../../../notion/queryDatabaseResponse";
 import {
 	type NotionPage,
 	NotionPagesRepository,
-} from "../../../repositories/NotionPagesRepository";
-import type { SetupConfig } from "../../../server/setup";
+} from "../../../../repositories/NotionPagesRepository";
+import type { SetupConfig } from "../../../../server/setup";
 
 export const addPage = async (
 	config: SetupConfig,
