@@ -1,8 +1,4 @@
-// console.log("API_HOST", import.meta.env.VITE_API_HOST);
-// console.log("All env vars:", import.meta.env);
-// const host = import.meta.env.VITE_API_HOST || "http://localhost:3000";
-
-const host = "http://localhost:3000";
+const host = "";
 
 export type UploadInventoryParams = {
 	file: File;
@@ -47,8 +43,6 @@ export const uploadInventoryItem = async (
 };
 
 export const fetchFiles = async <T>(url: string): Promise<T> => {
-	console.log("API_HOST", import.meta.env.VITE_API_HOST);
-
 	const res = await fetch(`${host}${url}`);
 	if (!res.ok) {
 		throw new Error("Failed to fetch uploaded files");
