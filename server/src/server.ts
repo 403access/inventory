@@ -1,7 +1,7 @@
-import { log } from "./src/log/app-logger";
-import { routesConfig } from "./src/routes/config";
-import { serveStatic } from "./src/server/serve-static";
-import { getServerInfo, setupServer } from "./src/server/setup";
+import { log } from "./log/app-logger";
+import { routesConfig } from "./routes/config";
+import { serveStatic } from "./server/serve-static";
+import { getServerInfo, setupServer } from "./server/setup";
 
 const config = await setupServer();
 
