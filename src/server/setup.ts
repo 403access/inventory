@@ -23,7 +23,7 @@ export const getServerInfo = async (config: SetupConfig) => {
 
 export const setupServer = async () => {
 	// Create necessary folders - output most likely at console
-	// TODO: We can also log this to the logger.
+	// TODO: We can also log whatever happens inside createFolders to the logger.
 	//       - For that we need to create a mock logger that caches log calls
 	//         and executes them at least on console with console.log.
 	//       - Eventually, log the created folders through
