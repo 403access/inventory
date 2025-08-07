@@ -1,6 +1,6 @@
 import type { BunRequest } from "bun";
+import homepage from "../../../client/src/index.html";
 import type { SetupConfig } from "../server/setup";
-import homepage from "./client/index.html";
 import { routeInventoryAdd } from "./inventory/route-inventory-add";
 import { routeInventoryGet } from "./inventory/route-inventory-get";
 import { corsMiddleware as cors } from "./middlewares/cors";
