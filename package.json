@@ -1,30 +1,30 @@
 {
-  "scripts": {
-    "dev": "clear && bun run server/src/server.ts",
-    "build": "bun build --target=bun --production --outdir=dist server.ts",
-    "start": "bun dist/server.js",
-    "logs": "bun run src/log/viewers/quick-logs.ts",
-    "logs:view": "bun run src/log/viewers/view-logs.ts",
-    "logs:search": "bun run src/log/viewers/view-logs.ts search",
-    "logs:follow": "bun run src/log/viewers/view-logs.ts follow",
-    "logs:follow-search": "bun run src/log/viewers/view-logs.ts follow-search"
-  },
-  "dependencies": {
-    "@notionhq/client": "^4.0.1",
-    "@short.io/client-node": "^2.2.0",
-    "@types/mime-types": "^3.0.1",
-    "@types/qrcode": "^1.5.5",
-    "@types/react-dom": "^19.1.7",
-    "canvas": "^3.1.2",
-    "formidable": "^3.5.4",
-    "fs-extra": "^11.3.0",
-    "mime-types": "^3.0.1",
-    "qrcode": "^1.5.4",
-    "sharp": "^0.34.3"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "2.1.2",
-    "@types/bun": "^1.2.18",
-    "@types/node": "^24.0.14"
-  }
+	"scripts": {
+		"dev": "clear && bun run server/src/server.ts",
+		"build": "bun build --target=bun --production --outdir=dist server.ts",
+		"start": "bun dist/server.js",
+		"logs": "bun run src/log/viewers/quick-logs.ts",
+		"logs:view": "bun run src/log/viewers/view-logs.ts",
+		"logs:search": "bun run src/log/viewers/view-logs.ts search",
+		"logs:follow": "bun run src/log/viewers/view-logs.ts follow",
+		"logs:follow-search": "bun run src/log/viewers/view-logs.ts follow-search"
+	},
+	"dependencies": {
+		"@notionhq/client": "^4.0.1",
+		"@short.io/client-node": "^2.2.0",
+		"@types/mime-types": "^3.0.1",
+		"@types/qrcode": "^1.5.5",
+		"@types/react-dom": "^19.1.7",
+		"canvas": "^3.1.2",
+		"formidable": "^3.5.4",
+		"fs-extra": "^11.3.0",
+		"mime-types": "^3.0.1",
+		"qrcode": "^1.5.4",
+		"sharp": "^0.34.3"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.1.2",
+		"@types/bun": "^1.2.18",
+		"@types/node": "^24.0.14"
+	}
 }
