@@ -1,6 +1,8 @@
 {
 	"scripts": {
+		"predev": "bun run scripts/updateHostEnvValue.ts",
 		"dev": "clear && bun run server/src/server.ts",
+		"preview": "bun run predev && bun run dev",
 		"build": "bun build --target=bun --production --outdir=dist server.ts",
 		"start": "bun dist/server.js",
 		"logs": "bun run src/log/viewers/quick-logs.ts",
