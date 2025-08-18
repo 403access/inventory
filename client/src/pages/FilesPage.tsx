@@ -5,15 +5,15 @@ import { Page } from "../components/Page";
 import { fetchFiles } from "../utils/api";
 
 export const FilesPage = () => {
-    const query = useQuery({
-        queryKey: ["notion-files"],
-        queryFn: () => fetchFiles<NotionFile[]>("/notion/files"),
-    });
-    return (
-        <Page<NotionFile>
-            title="📂 Files Page"
-            {...query}
-            render={({ data: file }) => <FileView key={file.id} file={file} />}
-        />
-    );
+	const query = useQuery({
+		queryKey: ["notion-files"],
+		queryFn: () => fetchFiles<NotionFile[]>("/notion/files"),
+	});
+	return (
+		<Page<NotionFile>
+			title="📂 Files Page"
+			{...query}
+			render={({ data: file }) => <FileView key={file.id} file={file} />}
+		/>
+	);
 };

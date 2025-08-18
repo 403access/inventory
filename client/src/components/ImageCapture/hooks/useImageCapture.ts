@@ -37,7 +37,7 @@ export const useImageCapture = ({ onImageChange }: UseImageCaptureProps) => {
 		fileInputRef: fileInput.fileInputRef,
 		currentFile: fileInput.selectedFile,
 		currentPreviewUrl: fileInput.previewUrl,
-		
+
 		// Actions
 		selectFile: handleFileSelect,
 		handleFileChange,

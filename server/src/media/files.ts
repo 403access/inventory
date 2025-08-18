@@ -1,10 +1,6 @@
 import path from "node:path";
 
-export const storeFile = async (
-	file: File,
-	name: string,
-	imageDir: string,
-) => {
+export const storeFile = async (file: File, name: string, imageDir: string) => {
 	const ext = path.extname(file.name || "") || ".heic";
 	const safeName = name.replace(/[^a-z0-9-_]/gi, "_");
 	const originalFilename = `${safeName}${ext}`;

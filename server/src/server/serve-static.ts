@@ -4,9 +4,9 @@ import mime from "mime-types";
 
 export const serveStatic = async (req: Request) => {
 	const url = new URL(req.url);
-	
+
 	// First try to serve from public folder
-	if (url.pathname.startsWith('/public/')) {
+	if (url.pathname.startsWith("/public/")) {
 		const publicPath = path.join(".", url.pathname);
 		try {
 			const file = await readFile(publicPath);
@@ -18,7 +18,7 @@ export const serveStatic = async (req: Request) => {
 			// Fall through to try client/dist
 		}
 	}
-	
+
 	// Then try to serve from client/dist (React app)
 	let filePath = path.join("client/dist", url.pathname);
 

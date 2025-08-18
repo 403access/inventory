@@ -8,13 +8,13 @@ const queryClient = new QueryClient();
 
 const root = document.getElementById("root");
 if (!root) {
-  throw new Error("Root element not found");
+	throw new Error("Root element not found");
 }
 
 ReactDOM.createRoot(root).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
-  </React.StrictMode>,
+	<React.StrictMode>
+		<QueryClientProvider client={queryClient}>
+			<App />
+		</QueryClientProvider>
+	</React.StrictMode>,
 );
