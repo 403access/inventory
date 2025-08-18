@@ -1,5 +1,6 @@
 {
 	"scripts": {
+		"format": "bunx biome format --write",
 		"predev": "bun run scripts/updateHostEnvValue.ts",
 		"dev": "clear && bun run server/src/server.ts",
 		"preview": "bun run predev && bun run dev",
